@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Главная — IdeaBox{% endblock %}
+
+{% block content %}
+<h2>Мои идеи</h2>
+
+<form method="GET" action="{{ url_for('index') }}" style="margin-bottom: 20px;">
+    <input type="text" name="q" placeholder="Поиск по названию..." value="{{ q }}">
+    <button type="submit">Найти</button>
+    {% if q %}<a href="{{ url_for('index') }}">Сбросить</a>{% endif %}
+</form>
+
+{% if ideas %}
+    {% for idea in ideas %}
+        <div>
+            <h3>
+                {{ idea.title }}
+                {% if idea.category_name %}
+                    <span style="font-size: 14px; color: gray;">[{{ idea.category_name }}]</span>
+                {% endif %}
+            </h3>
+            <p>{{ idea.description }}</p>
+            <a href="{{ url_for('detail', idea_id=idea.id) }}">Подробнее</a>
+        </div>
+        <hr>
+    {% endfor %}
+{% else %}
+    <p>Пока идей нет или ничего не найдено.</p>
+{% endif %}
+{% endblock %}

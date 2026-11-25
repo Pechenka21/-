@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}{{ idea.title }}{% endblock %}
+
+{% block content %}
+<h2>{{ idea.title }}</h2>
+
+<p><strong>Категория:</strong>
+    {% if idea.category_name %}
+        {{ idea.category_name }}
+    {% else %}
+        <em>Без категории</em>
+    {% endif %}
+</p>
+
+<p>{{ idea.description }}</p>
+
+<div style="margin-top: 20px;">
+    <a href="{{ url_for('edit_idea', idea_id=idea.id) }}">
+        <button>Редактировать</button>
+    </a>
+    <form action="{{ url_for('delete_idea', idea_id=idea.id) }}" method="POST" style="display: inline;">
+        <button type="submit" onclick="return confirm('Вы уверены?');">Удалить</button>
+    </form>
+</div>
+<hr>
+<a href="{{ url_for('index') }}">Назад к списку</a>
+{% endblock %}

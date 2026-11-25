@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Редактировать идею{% endblock %}
+
+{% block content %}
+<h2>Редактирование идеи</h2>
+
+{% for error in errors|default([]) %}
+    <p style="color: red;">{{ error }}</p>
+{% endfor %}
+
+<form method="POST" action="{{ url_for('edit_idea', idea_id=idea_id) }}">
+    <p>
+        <label>Название</label>
+        <input type="text" name="title" value="{{ title|default('') }}">
+    </p>
+    <p>
+        <label>Описание</label>
+        <textarea name="description">{{ description|default('') }}</textarea>
+    </p>
+    <p>
+        <label>Категория</label>
+        <select name="category_id">
+            <option value="">-- Без категории --</option>
+            {% for cat in categories %}
+                <option value="{{ cat.id }}" {% if selected_cat|string == cat.id|string %}selected{% endif %}>
+                    {{ cat.name }}
+                </option>
+            {% endfor %}
+        </select>
+    </p>
+    <button type="submit">Обновить</button>
+    <a href="{{ url_for('detail', idea_id=idea_id) }}">Отмена</a>
+</form>
+{% endblock %}
